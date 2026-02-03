@@ -1,0 +1,150 @@
+:root {
+    --dev-blue: #DE8FFF;
+    --crea-purple: #5FDDFF;
+    --com-orange: #ffab19;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: #141414;
+}
+
+.game-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    height: 75vh;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
+
+}
+
+
+.reset {
+    position: absolute;
+    margin-bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #DE8FFF;
+    color: #242424;
+    border: solid 1px #000000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    font-weight: bold;
+    z-index: 1000;
+    transition: scale 0.2s, background-color 0.2s;
+}
+
+.reset:hover {
+    background-color: #602EFF;
+    color: #fff;
+    scale: 1.03;
+}
+
+.blocks-palette {
+    width: 350px;
+    background-image: url('pattern-jaune.png');
+    background-size: 150%;    
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+
+.block {
+    margin-bottom: 10px;
+    padding: 12px;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    cursor: grab;
+    border-radius: 4px 15px 15px 4px; 
+    position: relative;
+    user-select: none;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+}
+
+.html-block { 
+    background-color: var(--crea-purple);
+}
+
+.css-block { 
+    background-color: var(--dev-blue); 
+}
+
+.block-input {
+    width: 45px;
+    border: none;
+    border-radius: 4px;
+    margin-left: 5px;
+    pointer-events: auto; 
+}
+
+.drop-zone {
+    flex: 1;
+    background-image: url('pattern-noir.png');
+    background-size: 150%;    
+    border: 3px dashed #cbd5e0;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.applied-block {
+    background: #eee;
+    padding: 8px;
+    border-left: 10px solid var(--dev-blue);
+    border-radius: 4px;
+    font-family: monospace;
+    margin: 0;
+}
+
+.preview-page {
+    width: 350px;
+    background-image: url('pattern-jaune.png');
+    background-size: 100%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.preview-page h1 {
+    color: #000000; 
+    margin: 0; 
+}
+
+.selected {
+    outline: 2px dashed #DE8FFF;
+    outline-offset: 5px;
+}
+
+.preview-page h1:hover, .preview-page p:hover {
+    background-color: rgba(76, 151, 255, 0.05);
+    cursor: text;
+    border-radius: 4px;
+}
+
+.preview-page [contenteditable="true"]:focus {
+    outline: none;
+    background-color: rgba(76, 151, 255, 0.1);
+}
+
+.over {
+    background-color: #e0e7ff;
+    border-color: var(--dev-blue);
+}

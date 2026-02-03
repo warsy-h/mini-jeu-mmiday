@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>MMI Day</title>
+    <link rel="icon" type="image/png" href="Mascotte_Default.png">
+</head>
+
+<header>
+        <img src="Mascotte_Default.png" alt="Logo MMI Day" class="logo" width="80">
+        <h1>Crée un début de site !</h1>
+</header>
+<body>
+<div class="game-container">
+    <div class="blocks-palette">
+        <h3>1. Structure</h3>
+        <div class="block html-block" draggable="true" data-type="h1" style="color: #141414;">Ajouter Titre</div>
+        <div class="block html-block" draggable="true" data-type="p">Ajouter Texte</div>
+        
+        <h3>2. Style</h3>
+        <div class="block css-block" draggable="true" data-prop="color">
+            Couleur: <input type="color" value="#ff0000" class="block-input">
+        </div>
+        <div class="block css-block" draggable="true" data-prop="fontSize">
+            Taille: <input type="number" value="40" class="block-input"> px
+        </div>
+        <div class="block css-block" draggable="true" data-prop="rotate">
+            Rotation: <input type="number" value="15" class="block-input"> °
+        </div>
+    </div>
+
+    <div class="drop-zone" id="dropzone">
+        <p style="color: #ccc; text-align: center;">Déposez vos blocs ici...</p>
+    </div>
+
+    <div class="preview-page" id="page-preview"></div>       
+</div> 
+
+        <button class="reset" onclick="window.location.reload()" >
+            Réinitialiser la page
+        </button>
+
+<script>
+    const dropzone = document.getElementById('dropzone');
+    const preview = document.getElementById('page-preview');
+    let lastCreatedElement = null;
+
+    document.addEventListener('dragstart', (e) => {
+        if (e.target.classList.contains('block')) {
+            const input = e.target.querySelector('.block-input');
+            const val = input ? input.value : '';
+            
+            e.dataTransfer.setData('type', e.target.dataset.type || '');
+            e.dataTransfer.setData('prop', e.target.dataset.prop || '');
+            e.dataTransfer.setData('val', val);
+        }
+    });
+
+    dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('over');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+        dropzone.classList.remove('over');
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('over');
+
+        const type = e.dataTransfer.getData('type');
+        const prop = e.dataTransfer.getData('prop');
+        const val = e.dataTransfer.getData('val');
+
+        if (type) {
+            const el = document.createElement(type);
+            
+            if (type !== 'img') {
+                el.contentEditable = "true"; 
+                el.innerText = type === 'h1' ? "Titre (clique pour éditer)" : "Paragraphe (clique pour éditer)";
+                
+                el.style.cursor = "text";
+                el.style.minWidth = "50px"; 
+            } 
+            
+            if (type === 'img') {
+                el.src = "https://picsum.photos/400/200"; 
+                el.style.display = "block";
+                el.style.maxWidth = "100%";
+            }
+
+            if(lastCreatedElement) lastCreatedElement.classList.remove('selected');
+            
+            el.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                if(lastCreatedElement) lastCreatedElement.classList.remove('selected');
+                lastCreatedElement = this;
+                this.classList.add('selected');
+            });
+            
+            preview.appendChild(el);
+            lastCreatedElement = el;
+            lastCreatedElement.classList.add('selected');
+            
+            log(`&lt;${type}&gt; ajouté`, 'html');
+        } 
+        
+        else if (prop && lastCreatedElement) {
+            if (prop === 'fontSize') lastCreatedElement.style.fontSize = val + "px";
+            else if (prop === 'rotate') lastCreatedElement.style.transform = `rotate(${val}deg)`;
+            else if (prop === 'color') lastCreatedElement.style.color = val;
+            
+            log(`${prop}: ${val}`, 'css');
+            
+            lastCreatedElement.classList.add('selected');
+        } 
+        
+        else if (prop && !lastCreatedElement) {
+            alert("⚠️ Clique d'abord sur un élément (Titre ou Texte) pour le sélectionner !");
+        }
+
+    });
+    function log(msg) {
+        const p = document.createElement('p');
+        p.className = 'applied-block';
+        p.innerHTML = msg;
+        dropzone.appendChild(p);
+        if(dropzone.querySelector('p[style]')) dropzone.querySelector('p[style]').remove();
+    }
+</script>
+
+</body>
+</html>
