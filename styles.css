@@ -55,6 +55,7 @@ h1 {
 
 .blocks-palette {
     width: 350px;
+    border: 1px solid #ddd;
     background-image: url('pattern-jaune.png');
     background-size: 150%;    
     padding: 15px;
@@ -94,7 +95,7 @@ h1 {
 .drop-zone {
     flex: 1;
     background-image: url('pattern-noir.png');
-    background-size: 150%;    
+    background-size: 160%;    
     border: 3px dashed #cbd5e0;
     border-radius: 10px;
     padding: 20px;
@@ -147,4 +148,5 @@ h1 {
 .over {
     background-color: #e0e7ff;
     border-color: var(--dev-blue);
+
 }
